@@ -59,7 +59,9 @@ a{color:inherit;text-decoration:none}
 
 /* ===== nav ===== */
 header{position:fixed;top:0;left:0;right:0;z-index:900;transition:transform .5s var(--ease),background .5s,backdrop-filter .5s,padding .4s;padding:22px 0}
-header.scrolled{background:rgba(16,15,12,.7);backdrop-filter:blur(16px);box-shadow:0 1px 0 var(--line);padding:13px 0}
+header::before{content:"";position:absolute;inset:0 0 auto 0;height:150px;background:linear-gradient(180deg,rgba(16,15,12,.82),rgba(16,15,12,.4) 45%,transparent);z-index:-1;pointer-events:none;transition:opacity .4s var(--ease)}
+header.scrolled::before{opacity:0}
+header.scrolled{background:rgba(16,15,12,.72);backdrop-filter:blur(16px);box-shadow:0 1px 0 var(--line);padding:13px 0}
 header.hide{transform:translateY(-105%)}
 .nav{display:flex;align-items:center;justify-content:space-between;gap:30px}
 .nav__logo img{height:58px;transition:height .4s var(--ease)}
@@ -95,7 +97,15 @@ header.scrolled .nav__logo img{height:46px}
 .hero{position:relative;height:100vh;min-height:660px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;background:var(--bg)}
 .cubes{position:absolute;inset:0;z-index:0}
 .cube{position:absolute;background-repeat:no-repeat;filter:contrast(1.07) brightness(.95);will-change:transform,opacity;opacity:0;backface-visibility:hidden}
-.hero__scrim{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(16,15,12,.6),rgba(16,15,12,.1) 26%,rgba(16,15,12,.18) 56%,rgba(16,15,12,.88))}
+.hero__scrim{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(16,15,12,.58),rgba(16,15,12,.06) 24%,rgba(16,15,12,.16) 54%,rgba(16,15,12,.9))}
+.hero__glow{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(40% 30% at 50% 47%,rgba(224,153,94,.28),transparent 70%);mix-blend-mode:screen}
+.hero__focus{position:absolute;z-index:2;left:50%;top:47%;transform:translate(-50%,-50%);width:min(42vw,420px);height:min(20vh,154px);pointer-events:none;opacity:0;animation:focusIn .9s var(--ease) 2s forwards}
+@keyframes focusIn{to{opacity:1}}
+.hero__focus .b{position:absolute;width:20px;height:20px;border:2px solid var(--accent-2);animation:focusPulse 3s var(--ease) infinite}
+.hero__focus .tl{top:0;left:0;border-right:0;border-bottom:0}.hero__focus .tr{top:0;right:0;border-left:0;border-bottom:0}
+.hero__focus .bl{bottom:0;left:0;border-right:0;border-top:0}.hero__focus .br{bottom:0;right:0;border-left:0;border-top:0}
+.hero__focus .lbl{position:absolute;top:-19px;right:0;font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-2)}
+@keyframes focusPulse{0%,100%{opacity:.5}50%{opacity:1}}
 .hero__top{position:absolute;top:116px;left:0;right:0;z-index:3;display:flex;justify-content:space-between;align-items:center;gap:14px}
 .hero__content{position:relative;z-index:3;width:100%;margin-bottom:88px}
 .hero h1{font-family:var(--disp);font-weight:900;font-size:clamp(3.1rem,10.2vw,9.6rem);line-height:.84;letter-spacing:-.04em;text-transform:uppercase;text-shadow:0 4px 50px rgba(0,0,0,.5)}
@@ -193,6 +203,22 @@ header.scrolled .nav__logo img{height:46px}
 .prod__pr{font-family:var(--disp);font-weight:800;font-size:1.1rem;color:var(--accent);white-space:nowrap}
 .legend{margin-top:24px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--faint);text-transform:uppercase}
 .legend b{color:var(--dim)}.legend i{font-style:normal;opacity:.5}
+
+/* ===== optique / examen ===== */
+.exam{display:grid;grid-template-columns:.92fr 1.08fr;gap:60px;align-items:center}
+.exam__ph{position:relative;overflow:hidden;aspect-ratio:4/4.3}
+.exam__ph img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.08)}
+.exam__tag{position:absolute;top:18px;left:18px;background:var(--accent);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:7px 12px;z-index:2}
+.exam h2{font-family:var(--disp);font-weight:900;font-size:clamp(2.1rem,4.8vw,3.8rem);text-transform:uppercase;line-height:.9;letter-spacing:-.03em}
+.exam h2 .a{color:var(--accent)}
+.exam__lead{margin:20px 0 24px;color:var(--dim);font-size:16.5px;max-width:490px}
+.exam__list{margin-bottom:30px}
+.exam__list li{list-style:none;display:grid;grid-template-columns:auto 1fr;gap:18px;padding:18px 0;border-top:1px solid var(--line)}
+.exam__list li:last-child{border-bottom:1px solid var(--line)}
+.exam__list span{font-family:var(--mono);font-size:11px;color:var(--accent)}
+.exam__list h4{font-family:var(--disp);font-weight:700;font-size:1.15rem;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:4px}
+.exam__list p{font-size:14px;color:var(--dim)}
+@media(max-width:980px){.exam{grid-template-columns:1fr;gap:34px}}
 
 /* ===== eco ===== */
 .eco{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -298,7 +324,7 @@ footer{border-top:1px solid var(--line);padding:70px 0 32px;background:var(--bg-
 <header id="hdr"><div class="wrap nav">
   <a href="#top" class="nav__logo" data-c><img src="assets/logo-white.png" alt="Sacrées Mirettes"></a>
   <nav class="nav__links">
-    <a href="#maison" data-c>Maison</a><a href="#regard" data-c>Regard</a><a href="#creesteurs" data-c>Créateurs</a>
+    <a href="#maison" data-c>Maison</a><a href="#optique" data-c>Optique</a><a href="#creesteurs" data-c>Créateurs</a>
     <a href="#lunettes" data-c>Lunettes</a><a href="#eco" data-c>Éco</a><a href="#visite" data-c>Contact</a>
   </nav>
   <a href="#visite" class="btn btn--accent" data-magnetic data-c>Rendez-vous</a>
@@ -308,7 +334,12 @@ footer{border-top:1px solid var(--line);padding:70px 0 32px;background:var(--bg-
 <!-- ===== HERO ===== -->
 <section class="hero" id="top">
   <div class="cubes" id="cubes" aria-hidden="true"></div>
+  <div class="hero__glow" aria-hidden="true"></div>
   <div class="hero__scrim"></div>
+  <div class="hero__focus" aria-hidden="true">
+    <span class="b tl"></span><span class="b tr"></span><span class="b bl"></span><span class="b br"></span>
+    <span class="lbl">Le regard</span>
+  </div>
   <div class="wrap hero__top">
     <span class="kapper">Opticien lunetier responsable</span>
     <span class="mono" style="color:var(--faint)">50°38'N · 03°03'E — Vieux-Lille</span>
@@ -366,10 +397,30 @@ footer{border-top:1px solid var(--line);padding:70px 0 32px;background:var(--bg-
   </div>
 </section>
 
+<!-- ===== OPTIQUE / EXAMEN DE VUE ===== -->
+<section class="sec" id="optique">
+  <div class="wrap">
+    <div class="sec-i rv">[ 02 ] <b>L'optique</b></div>
+    <div class="exam">
+      <div class="exam__ph clip"><img src="assets/team-sarah-examen.jpg" alt="Examen de vue — Sacrées Mirettes"><span class="exam__tag">Examen de vue</span></div>
+      <div>
+        <h2 class="rv">On commence<br>par <span class="a">vos yeux.</span></h2>
+        <p class="exam__lead rv" data-d="1">Avant la monture, il y a le regard. Opticiens diplômés, on mesure votre vue avec un matériel récent et on prend le temps qu'il faut — pour des verres vraiment adaptés à vos yeux, pas un examen à la chaîne.</p>
+        <ul class="exam__list">
+          <li class="rv" data-d="1"><span>/01</span><div><h4>Examen de vue complet</h4><p>Acuité, réfraction, vision de près comme de loin. Un bilan sérieux mené en boutique, par un opticien diplômé.</p></div></li>
+          <li class="rv" data-d="2"><span>/02</span><div><h4>Sans rendez-vous interminable</h4><p>On vous reçoit vite et bien. Pas de salle d'attente sans fin — juste le temps qu'il faut pour vous.</p></div></li>
+          <li class="rv" data-d="3"><span>/03</span><div><h4>Verres, lentilles &amp; suivi</h4><p>Verres de qualité, adaptation des lentilles, réglages et garanties. On reste là, bien après l'achat.</p></div></li>
+        </ul>
+        <a href="#visite" class="btn rv" data-d="2" data-magnetic data-c>Prendre rendez-vous</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===== MAISONS ===== -->
 <section class="sec" id="creesteurs">
   <div class="wrap">
-    <div class="sec-i rv">[ 02 ] <b>Les créateurs</b></div>
+    <div class="sec-i rv">[ 03 ] <b>Les créateurs</b></div>
     <div class="sec-head">
       <h2 class="rv">Des maisons<br><span class="o">indépendantes,</span> <span class="a">choisies</span><br>une à une.</h2>
       <p class="rv" data-d="1">Pas de grandes licences ni de logos tapageurs. Des lunetiers indépendants, européens pour la plupart, qui pensent leurs collections comme des objets de caractère.</p>
@@ -391,7 +442,7 @@ footer{border-top:1px solid var(--line);padding:70px 0 32px;background:var(--bg-
 <!-- ===== LUNETTES ===== -->
 <section class="sec" id="lunettes" style="padding-top:0">
   <div class="wrap">
-    <div class="sec-i rv">[ 03 ] <b>La sélection</b></div>
+    <div class="sec-i rv">[ 04 ] <b>La sélection</b></div>
     <div class="sec-head">
       <h2 class="rv">Quelques<br>regards <span class="a">à essayer.</span></h2>
       <p class="rv" data-d="1">Un aperçu de l'atelier. Chaque modèle se règle, s'adapte et se porte au quotidien — venez les essayer en boutique, la lumière du Vieux-Lille en prime.</p>
@@ -416,7 +467,7 @@ footer{border-top:1px solid var(--line);padding:70px 0 32px;background:var(--bg-
 <!-- ===== ECO ===== -->
 <section class="eco sec" id="eco">
   <div class="wrap">
-    <div class="sec-i rv">[ 04 ] <b>L'engagement</b></div>
+    <div class="sec-i rv">[ 05 ] <b>L'engagement</b></div>
     <div class="eco__grid">
       <div class="eco__ph clip"><img src="assets/team-flo-emile.jpg" alt="Atelier — réglage">
         <div class="chipbig"><b>0</b><span>déchet oublié — vos anciennes montures reprennent vie grâce à la reprise solidaire.</span></div>
@@ -437,7 +488,7 @@ footer{border-top:1px solid var(--line);padding:70px 0 32px;background:var(--bg-
 <!-- ===== STATS ===== -->
 <section class="sec" style="overflow:hidden">
   <div class="wrap">
-    <div class="sec-i rv">[ 05 ] <b>En chiffres</b></div>
+    <div class="sec-i rv">[ 06 ] <b>En chiffres</b></div>
     <div class="stats" id="stats">
       <div class="stat rv"><div class="num"><span data-count="11">0</span></div><div class="lb">ans d'expertise, à deux</div></div>
       <div class="stat rv" data-d="1"><div class="num"><span data-count="25">0</span></div><div class="lb">maisons indépendantes au mur</div></div>
@@ -451,7 +502,7 @@ footer{border-top:1px solid var(--line);padding:70px 0 32px;background:var(--bg-
 <!-- ===== DUO ===== -->
 <section class="sec" id="duo" style="padding-top:0">
   <div class="wrap">
-    <div class="sec-i rv">[ 06 ] <b>Le duo</b></div>
+    <div class="sec-i rv">[ 07 ] <b>Le duo</b></div>
     <div class="sec-head">
       <h2 class="rv">Sarah &amp; Flo,<br><span class="o">derrière le</span> <span class="a">comptoir.</span></h2>
       <p class="rv" data-d="1">Deux opticiens, une même obsession : que vous repartiez avec des lunettes qui vous vont — vraiment. On prend le temps, on ajuste, on conseille.</p>
@@ -472,7 +523,7 @@ footer{border-top:1px solid var(--line);padding:70px 0 32px;background:var(--bg-
 <!-- ===== SERVICES ===== -->
 <section class="sec" id="services" style="padding-top:0">
   <div class="wrap">
-    <div class="sec-i rv">[ 07 ] <b>L'accompagnement</b></div>
+    <div class="sec-i rv">[ 08 ] <b>L'accompagnement</b></div>
     <div class="svc-grid">
       <div class="svc rv"><span class="n">/01</span><h4>Examen de vue</h4><p>Un bilan complet, sans rendez-vous interminable, pour des verres parfaitement adaptés à vos yeux.</p><svg class="ar" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></div>
       <div class="svc rv" data-d="1"><span class="n">/02</span><h4>Lentilles de contact</h4><p>Pose, adaptation et suivi. On vous apprend les bons gestes pour un confort sans compromis.</p><svg class="ar" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></div>
@@ -541,7 +592,7 @@ document.querySelectorAll('.rv,.clip,.lh').forEach(el=>io.observe(el));
 (function(){
   const hero=document.querySelector('.hero'),wrap=document.getElementById('cubes');
   if(!hero||!wrap)return;
-  const IMG='assets/hero-woman.jpg',IW=1400,IH=1750;
+  const IMG='assets/hero-woman.jpg',IW=1400,IH=1020;
   const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
   let cubes=[];
   function build(){
