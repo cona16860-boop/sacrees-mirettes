@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sacrées Mirettes — Opticien lunetier responsable · Vieux-Lille</title>
+<meta name="description" content="Sacrées Mirettes — opticien lunetier responsable au cœur du Vieux-Lille. Lunettes éco-conçues, créateurs indépendants, atelier sur place. Voyez grand." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#100F0C;
+  --bg-2:#17150F;
+  --panel:#F1ECE1;
+  --text:#ECE7DB;
+  --text-dim:#8E867706;
+  --dim:rgba(236,231,219,.56);
+  --faint:rgba(236,231,219,.32);
+  --accent:#C27A43;
+  --accent-2:#E0995E;
+  --line:rgba(236,231,219,.14);
+  --ease:cubic-bezier(.16,.84,.36,1);
+  --ease2:cubic-bezier(.76,0,.24,1);
+  --disp:'Archivo',sans-serif;
+  --body:'Hanken Grotesk',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.6;overflow-x:hidden;position:relative}
+body::after{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.045;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+::selection{background:var(--accent);color:#100F0C}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1400px;margin:0 auto;padding:0 44px}
+.mono{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase}
+.disp{font-family:var(--disp);font-weight:900;text-transform:uppercase;letter-spacing:-.02em;line-height:.92}
+
+/* ===== custom cursor ===== */
+.cur,.cur-d{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;border-radius:50%;mix-blend-mode:difference}
+.cur{width:38px;height:38px;border:1.4px solid #fff;transform:translate(-50%,-50%);transition:width .3s var(--ease),height .3s var(--ease),background .3s,opacity .3s}
+.cur-d{width:5px;height:5px;background:#fff;transform:translate(-50%,-50%)}
+.cur.grow{width:74px;height:74px;background:rgba(255,255,255,.08)}
+@media (hover:hover) and (pointer:fine){body{cursor:none}a,button{cursor:none}}
+@media (hover:none),(pointer:coarse){.cur,.cur-d{display:none}}
+
+/* ===== loader ===== */
+#loader{position:fixed;inset:0;z-index:10000;background:var(--bg);display:grid;place-items:center;animation:loadOut .9s var(--ease2) 1.7s forwards}
+#loader .lbox{text-align:center;animation:loadFade .5s var(--ease) 1.5s forwards}
+#loader img{height:60px;margin:0 auto 22px;opacity:.96}
+#loader .bar{width:180px;height:2px;background:rgba(236,231,219,.16);margin:0 auto;overflow:hidden}
+#loader .bar i{display:block;height:100%;width:100%;background:var(--accent);transform:scaleX(0);transform-origin:left;animation:loadBar 1.5s var(--ease) forwards}
+#loader .pct{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--faint);margin-top:14px}
+@keyframes loadBar{to{transform:scaleX(1)}}
+@keyframes loadFade{to{opacity:0;transform:translateY(-10px)}}
+@keyframes loadOut{to{transform:translateY(-101%);visibility:hidden}}
+
+/* ===== nav ===== */
+header{position:fixed;top:0;left:0;right:0;z-index:900;transition:transform .5s var(--ease),background .5s,backdrop-filter .5s,padding .4s;padding:22px 0}
+header::before{content:"";position:absolute;inset:0 0 auto 0;height:150px;background:linear-gradient(180deg,rgba(16,15,12,.82),rgba(16,15,12,.4) 45%,transparent);z-index:-1;pointer-events:none;transition:opacity .4s var(--ease)}
+header.scrolled::before{opacity:0}
+header.scrolled{background:rgba(16,15,12,.72);backdrop-filter:blur(16px);box-shadow:0 1px 0 var(--line);padding:13px 0}
+header.hide{transform:translateY(-105%)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:30px}
+.nav__logo img{height:58px;transition:height .4s var(--ease)}
+header.scrolled .nav__logo img{height:46px}
+.nav__links{display:flex;gap:30px;align-items:center}
+.nav__links a{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);position:relative;padding:4px 0;transition:color .3s}
+.nav__links a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--accent);transition:width .35s var(--ease)}
+.nav__links a:hover{color:var(--text)}.nav__links a:hover::after{width:100%}
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;padding:13px 22px;border:1.3px solid var(--accent);background:var(--accent);color:#fff;transition:.4s var(--ease);white-space:nowrap;font-weight:500}
+.btn:hover{background:transparent;color:var(--accent-2)}
+.btn--ghost{background:transparent;color:var(--accent-2);border-color:var(--accent)}.btn--ghost:hover{background:var(--accent);color:#fff}
+.btn--accent{background:var(--accent);border-color:var(--accent);color:#fff}.btn--accent:hover{background:transparent;color:var(--accent-2)}
+.btn svg{width:14px;height:14px}
+.burger{display:none;flex-direction:column;gap:5px;background:none;border:0;padding:6px}
+.burger span{width:26px;height:2px;background:var(--text)}
+
+/* ===== masked line reveal ===== */
+.ln{display:block;overflow:hidden}
+.ln>span{display:block;transform:translateY(110%);transition:transform 1s var(--ease)}
+.in .ln>span,.lh .ln>span{transform:none}
+
+/* generic reveal */
+.rv{opacity:0;transform:translateY(40px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.clip{clip-path:inset(0 100% 0 0);transition:clip-path 1.1s var(--ease2)}
+.clip.in{clip-path:inset(0 0 0 0)}
+[data-d="1"]{transition-delay:.08s}[data-d="2"]{transition-delay:.16s}[data-d="3"]{transition-delay:.24s}[data-d="4"]{transition-delay:.32s}[data-d="5"]{transition-delay:.4s}
+
+.kapper{font-family:var(--mono);font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-2);display:inline-flex;align-items:center;gap:12px}
+.kapper::before{content:"";width:30px;height:1px;background:var(--accent)}
+
+/* ===== HERO (cube mosaic) ===== */
+.hero{position:relative;height:100vh;min-height:660px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;background:var(--bg)}
+.cubes{position:absolute;inset:0;z-index:0}
+.cube{position:absolute;background-repeat:no-repeat;filter:contrast(1.07) brightness(.95);will-change:transform,opacity;opacity:0;backface-visibility:hidden}
+.hero__scrim{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(16,15,12,.58),rgba(16,15,12,.06) 24%,rgba(16,15,12,.16) 54%,rgba(16,15,12,.9))}
+.hero__glow{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(44% 30% at 50% 31%,rgba(224,153,94,.26),transparent 70%);mix-blend-mode:screen}
+.hero__focus{position:absolute;z-index:2;left:50%;top:31%;transform:translate(-50%,-50%);width:min(52vw,520px);height:min(22vh,158px);pointer-events:none;opacity:0;animation:focusIn .9s var(--ease) 2s forwards}
+@keyframes focusIn{to{opacity:1}}
+.hero__focus .b{position:absolute;width:20px;height:20px;border:2px solid var(--accent-2);animation:focusPulse 3s var(--ease) infinite}
+.hero__focus .tl{top:0;left:0;border-right:0;border-bottom:0}.hero__focus .tr{top:0;right:0;border-left:0;border-bottom:0}
+.hero__focus .bl{bottom:0;left:0;border-right:0;border-top:0}.hero__focus .br{bottom:0;right:0;border-left:0;border-top:0}
+.hero__focus .lbl{position:absolute;top:-19px;right:0;font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-2)}
+@keyframes focusPulse{0%,100%{opacity:.5}50%{opacity:1}}
+.hero__top{position:absolute;top:116px;left:0;right:0;z-index:3;display:flex;justify-content:space-between;align-items:center;gap:14px}
+.hero__content{position:relative;z-index:3;width:100%;margin-bottom:88px}
+.hero h1{font-family:var(--disp);font-weight:900;font-size:clamp(3.1rem,10.2vw,9.6rem);line-height:.84;letter-spacing:-.04em;text-transform:uppercase;text-shadow:0 4px 50px rgba(0,0,0,.5)}
+.hero h1 .o{color:transparent;-webkit-text-stroke:1.6px var(--text)}
+.hero h1 .a{color:var(--accent)}
+.hero__sub{margin-top:24px;max-width:480px;color:var(--text);font-size:18px;line-height:1.55;text-shadow:0 2px 24px rgba(0,0,0,.7)}
+.hero__cta{margin-top:32px;display:flex;gap:14px;flex-wrap:wrap}
+.hero__meta{position:absolute;bottom:28px;left:0;right:0;z-index:3;display:flex;gap:38px;flex-wrap:wrap;align-items:flex-end}
+.hero__meta .m{display:flex;flex-direction:column}
+.hero__meta .m b{font-family:var(--disp);font-weight:800;font-size:1.45rem;line-height:1}
+.hero__meta .m span{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-top:6px}
+.hero__meta .cue{margin-left:auto;display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+.hero__meta .cue .l{width:42px;height:1px;background:var(--faint);position:relative;overflow:hidden}
+.hero__meta .cue .l::after{content:"";position:absolute;inset:0;background:var(--accent);transform:translateX(-100%);animation:slide 2.2s var(--ease) infinite}
+@keyframes slide{50%{transform:translateX(0)}100%{transform:translateX(100%)}}
+
+/* ===== marquee ===== */
+.marq{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:20px 0;background:var(--bg-2)}
+.marq__t{display:flex;gap:46px;white-space:nowrap;width:max-content;animation:mv 30s linear infinite}
+.marq--r .marq__t{animation-direction:reverse}
+.marq:hover .marq__t{animation-play-state:paused}
+.marq__t span{font-family:var(--disp);font-weight:800;font-size:1.7rem;text-transform:uppercase;letter-spacing:-.01em;display:inline-flex;align-items:center;gap:46px;color:var(--text)}
+.marq__t span::after{content:"✦";color:var(--accent);font-size:.85rem}
+.marq__t span.hollow{color:transparent;-webkit-text-stroke:1px var(--faint)}
+@keyframes mv{to{transform:translateX(-50%)}}
+
+/* ===== section shell ===== */
+.sec{padding:130px 0;position:relative}
+.sec-i{font-family:var(--mono);font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);display:flex;align-items:center;gap:14px;margin-bottom:34px}
+.sec-i b{color:var(--accent-2);font-weight:500}
+.sec-i::after{content:"";flex:1;height:1px;background:var(--line)}
+.sec-head{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:end;margin-bottom:60px}
+.sec-head h2{font-family:var(--disp);font-weight:900;font-size:clamp(2.4rem,6vw,5rem);line-height:.9;text-transform:uppercase;letter-spacing:-.03em}
+.sec-head h2 .o{color:transparent;-webkit-text-stroke:1.2px var(--text)}
+.sec-head h2 .a{color:var(--accent)}
+.sec-head p{color:var(--dim);max-width:420px;justify-self:end;font-size:16px}
+
+/* ===== manifeste ===== */
+.man{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+.man__big{font-family:var(--disp);font-weight:700;font-size:clamp(1.7rem,3.4vw,2.9rem);line-height:1.06;text-transform:uppercase;letter-spacing:-.02em}
+.man__big .a{color:var(--accent)}.man__big .o{color:transparent;-webkit-text-stroke:1.2px var(--text)}
+.steps{display:flex;flex-direction:column}
+.step{display:grid;grid-template-columns:auto 1fr;gap:22px;padding:26px 0;border-top:1px solid var(--line)}
+.step:last-child{border-bottom:1px solid var(--line)}
+.step .n{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--accent)}
+.step h4{font-family:var(--disp);font-weight:700;font-size:1.3rem;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:8px}
+.step p{color:var(--dim);font-size:15px}
+
+/* ===== sliced grid ===== */
+.slicer{position:relative;height:78vh;min-height:480px;display:flex;gap:6px;overflow:hidden}
+.slice{flex:1;background-size:500% 100%;background-position-y:center;filter:grayscale(1) contrast(1.08);transform:translateY(102%);transition:transform 1.1s var(--ease2);will-change:transform}
+.slicer.in .slice{transform:translateY(0)}
+.slicer.in .slice:nth-child(1){transition-delay:0s}.slicer.in .slice:nth-child(2){transition-delay:.09s}
+.slicer.in .slice:nth-child(3){transition-delay:.18s}.slicer.in .slice:nth-child(4){transition-delay:.27s}.slicer.in .slice:nth-child(5){transition-delay:.36s}
+.slicer__cap{position:absolute;left:0;bottom:0;right:0;padding:34px 40px;display:flex;justify-content:space-between;align-items:flex-end;z-index:3;
+  background:linear-gradient(0deg,rgba(16,15,12,.86),transparent)}
+.slicer__cap h3{font-family:var(--disp);font-weight:900;font-size:clamp(2rem,5vw,4rem);text-transform:uppercase;letter-spacing:-.03em;line-height:.9}
+.slicer__cap .x{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-align:right;max-width:230px}
+
+/* ===== maisons ===== */
+.maisons{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.maison{position:relative;aspect-ratio:1/1.05;overflow:hidden;background:var(--bg-2);border:1px solid var(--line)}
+.maison img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(.82) contrast(1.05);transition:transform .9s var(--ease),filter .7s}
+.maison:hover img{transform:scale(1.07);filter:grayscale(0) brightness(1)}
+.maison figcaption{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:18px;background:linear-gradient(0deg,rgba(16,15,12,.7),transparent 60%)}
+.maison b{font-family:var(--disp);font-weight:700;font-size:1.1rem;text-transform:uppercase;letter-spacing:-.01em}
+.maison span{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-2);margin-top:3px}
+.maison .idx{position:absolute;top:14px;left:14px;font-family:var(--mono);font-size:10px;color:var(--faint)}
+.maisons-more{margin-top:30px;display:flex;flex-wrap:wrap;gap:8px 22px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+.maisons-more span{position:relative;padding-right:22px}.maisons-more span:not(:last-child)::after{content:"/";position:absolute;right:7px;color:var(--faint)}
+
+/* ===== filters + products ===== */
+.filters{display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin-bottom:34px;padding-bottom:22px;border-bottom:1px solid var(--line)}
+.fg{display:flex;align-items:center;gap:8px}
+.fg__l{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-right:4px}
+.chip{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);background:transparent;border:1.2px solid var(--line);padding:9px 16px;transition:.3s var(--ease)}
+.chip:hover{border-color:var(--text);color:var(--text)}
+.chip.on{background:var(--text);border-color:var(--text);color:var(--bg)}
+.fcount{margin-left:auto;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--faint)}
+.prods{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.prod{background:var(--panel);color:#100F0C;position:relative;transition:opacity .45s var(--ease),transform .45s var(--ease)}
+.prod.hidden{display:none}.prod.fin{animation:fu .5s var(--ease) both}
+@keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.prod__im{aspect-ratio:1/1;overflow:hidden;background:#fff;position:relative}
+.prod__im img{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease)}
+.prod:hover .prod__im img{transform:scale(1.06)}
+.prod__tag{position:absolute;top:0;left:0;background:#100F0C;color:var(--text);font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;padding:7px 11px}
+.prod__try{position:absolute;inset:auto 0 0 0;background:var(--accent);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:12px;text-align:center;transform:translateY(100%);transition:transform .4s var(--ease)}
+.prod:hover .prod__try{transform:none}
+.prod__b{padding:18px 18px 22px;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;border-top:1px solid rgba(16,15,12,.1)}
+.prod__b h4{font-family:var(--disp);font-weight:800;font-size:1.25rem;text-transform:uppercase;letter-spacing:-.01em}
+.prod__b .br{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:#7a7264;margin-top:5px}
+.prod__b .sp{font-family:var(--mono);font-size:10px;color:#9a917f;margin-top:8px;letter-spacing:.02em}
+.prod__b .sp i{font-style:normal;opacity:.5}
+.prod__pr{font-family:var(--disp);font-weight:800;font-size:1.1rem;color:var(--accent);white-space:nowrap}
+.legend{margin-top:24px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--faint);text-transform:uppercase}
+.legend b{color:var(--dim)}.legend i{font-style:normal;opacity:.5}
+
+/* ===== optique / examen ===== */
+.exam{display:grid;grid-template-columns:.92fr 1.08fr;gap:60px;align-items:center}
+.exam__ph{position:relative;overflow:hidden;aspect-ratio:4/4.3}
+.exam__ph img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.08)}
+.exam__tag{position:absolute;top:18px;left:18px;background:var(--accent);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:7px 12px;z-index:2}
+.exam h2{font-family:var(--disp);font-weight:900;font-size:clamp(2.1rem,4.8vw,3.8rem);text-transform:uppercase;line-height:.9;letter-spacing:-.03em}
+.exam h2 .a{color:var(--accent)}
+.exam__lead{margin:20px 0 24px;color:var(--dim);font-size:16.5px;max-width:490px}
+.exam__list{margin-bottom:30px}
+.exam__list li{list-style:none;display:grid;grid-template-columns:auto 1fr;gap:18px;padding:18px 0;border-top:1px solid var(--line)}
+.exam__list li:last-child{border-bottom:1px solid var(--line)}
+.exam__list span{font-family:var(--mono);font-size:11px;color:var(--accent)}
+.exam__list h4{font-family:var(--disp);font-weight:700;font-size:1.15rem;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:4px}
+.exam__list p{font-size:14px;color:var(--dim)}
+@media(max-width:980px){.exam{grid-template-columns:1fr;gap:34px}}
+
+/* ===== eco ===== */
+.eco{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.eco__grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:64px;align-items:center}
+.eco__ph{position:relative;overflow:hidden;aspect-ratio:3.3/4}
+.eco__ph img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.1)}
+.eco__ph .chipbig{position:absolute;left:20px;bottom:20px;right:20px;background:var(--bg);padding:18px 20px;display:flex;gap:16px;align-items:center;border:1px solid var(--line)}
+.eco__ph .chipbig b{font-family:var(--disp);font-weight:900;font-size:2.4rem;color:var(--accent);line-height:.9}
+.eco__ph .chipbig span{font-size:13px;color:var(--dim)}
+.eco h2{font-family:var(--disp);font-weight:900;font-size:clamp(2.1rem,4.6vw,3.7rem);text-transform:uppercase;line-height:.92;letter-spacing:-.03em;margin:20px 0 22px}
+.eco h2 .a{color:var(--accent)}.eco h2 .o{color:transparent;-webkit-text-stroke:1.2px var(--text)}
+.eco__chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 28px}
+.eco__chips span{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;padding:8px 13px;border:1px solid var(--line);color:var(--dim)}
+.eco__list li{list-style:none;display:grid;grid-template-columns:auto 1fr;gap:18px;padding:20px 0;border-top:1px solid var(--line)}
+.eco__list li:last-child{border-bottom:1px solid var(--line)}
+.eco__list .i{font-family:var(--mono);font-size:11px;color:var(--accent)}
+.eco__list h4{font-family:var(--disp);font-weight:700;font-size:1.2rem;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:5px}
+.eco__list p{font-size:14.5px;color:var(--dim)}
+
+/* ===== stats ===== */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;position:relative}
+.stat .num{font-family:var(--disp);font-weight:900;font-size:clamp(3rem,7vw,6rem);line-height:.85;letter-spacing:-.04em}
+.stat .num .a{color:var(--accent)}
+.stat .lb{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:14px;max-width:180px}
+.stats__ghost{position:absolute;right:0;bottom:-30px;font-family:var(--disp);font-weight:900;font-size:14vw;color:transparent;-webkit-text-stroke:1px rgba(236,231,219,.05);pointer-events:none;z-index:-1;text-transform:uppercase}
+
+/* ===== duo ===== */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.dc .ph{aspect-ratio:5/4;overflow:hidden;filter:grayscale(1) contrast(1.08);transition:filter .7s}
+.dc:hover .ph{filter:grayscale(0) contrast(1)}
+.dc .ph img{width:100%;height:100%;object-fit:cover}
+.dc__b{padding:22px 2px 0}
+.dc__b .nm{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.dc__b h3{font-family:var(--disp);font-weight:900;font-size:2rem;text-transform:uppercase;letter-spacing:-.02em}
+.dc__b .role{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-2)}
+.dc__b p{margin-top:12px;color:var(--dim);font-size:15px;max-width:440px}
+.dc__b .tg{margin-top:15px;display:flex;gap:7px;flex-wrap:wrap}
+.dc__b .tg span{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:6px 11px;border:1px solid var(--line);color:var(--dim)}
+
+/* ===== services ===== */
+.svc-grid{display:grid;grid-template-columns:repeat(2,1fr);border:1px solid var(--line)}
+.svc{padding:36px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);position:relative;transition:background .4s;overflow:hidden}
+.svc:hover{background:var(--bg-2)}
+.svc-grid .svc:nth-child(2n){border-right:0}.svc-grid .svc:nth-last-child(-n+2){border-bottom:0}
+.svc .n{font-family:var(--mono);font-size:11px;color:var(--accent);display:block;margin-bottom:16px}
+.svc h4{font-family:var(--disp);font-weight:700;font-size:1.5rem;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:9px}
+.svc p{color:var(--dim);font-size:14.5px;max-width:430px}
+.svc .ar{position:absolute;top:34px;right:34px;color:var(--accent);opacity:0;transform:translate(-6px,6px);transition:.4s var(--ease)}
+.svc:hover .ar{opacity:1;transform:none}
+
+/* ===== CTA ===== */
+.cta{text-align:center;padding:150px 0;position:relative;overflow:hidden}
+.cta__ghost{position:absolute;top:20%;left:0;right:0;text-align:center;font-family:var(--disp);font-weight:900;font-size:20vw;color:transparent;-webkit-text-stroke:1px rgba(236,231,219,.06);pointer-events:none;text-transform:uppercase;line-height:.8;white-space:nowrap}
+.cta__circ{width:230px;height:230px;border-radius:50%;overflow:hidden;margin:0 auto 36px;position:relative;z-index:2}
+.cta__circ img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05)}
+.cta h2{position:relative;z-index:2;font-family:var(--disp);font-weight:900;font-size:clamp(2.6rem,8vw,6.5rem);text-transform:uppercase;line-height:.86;letter-spacing:-.04em}
+.cta h2 .a{color:var(--accent)}.cta h2 .o{color:transparent;-webkit-text-stroke:1.4px var(--text)}
+.cta p{position:relative;z-index:2;color:var(--dim);margin:22px auto 34px;max-width:46ch}
+.cta .btn{position:relative;z-index:2}
+
+/* ===== footer ===== */
+footer{border-top:1px solid var(--line);padding:70px 0 32px;background:var(--bg-2)}
+.ft{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px;padding-bottom:46px;border-bottom:1px solid var(--line)}
+.ft-brand img{height:64px;margin-bottom:18px}
+.ft-brand p{color:var(--dim);font-size:14.5px;max-width:280px}
+.ft-col h5{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:16px}
+.ft-col a{display:block;font-size:14.5px;color:var(--dim);padding:5px 0;transition:.3s}
+.ft-col a:hover{color:var(--accent-2);padding-left:5px}
+.ft-bot{display:flex;justify-content:space-between;align-items:center;padding-top:24px;flex-wrap:wrap;gap:12px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+
+@media(max-width:980px){
+  .hero__grid{grid-template-columns:1fr;gap:40px}.hero__card{max-width:380px}
+  .sec-head{grid-template-columns:1fr;gap:18px}.sec-head p{justify-self:start}
+  .man{grid-template-columns:1fr;gap:36px}
+  .maisons{grid-template-columns:repeat(2,1fr)}
+  .prods{grid-template-columns:repeat(2,1fr)}
+  .eco__grid,.duo{grid-template-columns:1fr;gap:40px}
+  .stats{grid-template-columns:1fr 1fr;gap:40px 30px}
+}
+@media(max-width:680px){
+  .wrap{padding:0 22px}.nav__links{display:none}.burger{display:flex}
+  .hero{padding:120px 0 50px}.hero h1{font-size:clamp(3rem,16vw,5rem)}
+  .prods,.maisons{grid-template-columns:1fr 1fr;gap:10px}
+  .svc-grid{grid-template-columns:1fr}.svc{border-right:0!important}
+  .ft{grid-template-columns:1fr 1fr}.sec{padding:80px 0}.barcode,.scrollcue{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}#loader{display:none}}
+</style>
+</head>
+<body>
+
+<!-- cursor -->
+<div class="cur" id="cur"></div><div class="cur-d" id="curd"></div>
+
+<!-- loader -->
+<div id="loader"><div class="lbox">
+  <img src="assets/logo-white.png" alt="Sacrées Mirettes">
+  <div class="bar"><i></i></div>
+  <div class="pct">CHARGEMENT — VIEUX-LILLE</div>
+</div></div>
+
+<!-- ===== NAV ===== -->
+<header id="hdr"><div class="wrap nav">
+  <a href="#top" class="nav__logo" data-c><img src="assets/logo-white.png" alt="Sacrées Mirettes"></a>
+  <nav class="nav__links">
+    <a href="#maison" data-c>Maison</a><a href="#optique" data-c>Optique</a><a href="#creesteurs" data-c>Créateurs</a>
+    <a href="#lunettes" data-c>Lunettes</a><a href="#eco" data-c>Éco</a><a href="#visite" data-c>Contact</a>
+  </nav>
+  <a href="#visite" class="btn btn--accent" data-magnetic data-c>Rendez-vous</a>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</div></header>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="top">
+  <div class="cubes" id="cubes" aria-hidden="true"></div>
+  <div class="hero__glow" aria-hidden="true"></div>
+  <div class="hero__scrim"></div>
+  <div class="hero__focus" aria-hidden="true">
+    <span class="b tl"></span><span class="b tr"></span><span class="b bl"></span><span class="b br"></span>
+    <span class="lbl">Le regard</span>
+  </div>
+  <div class="wrap hero__top">
+    <span class="kapper">Opticien lunetier responsable</span>
+    <span class="mono" style="color:var(--faint)">50°38'N · 03°03'E — Vieux-Lille</span>
+  </div>
+  <div class="wrap hero__content lh" id="heroL">
+    <h1>
+      <span class="ln"><span>Voyez</span></span>
+      <span class="ln"><span class="o">grand,</span></span>
+      <span class="ln"><span>voyez <span class="a">juste.</span></span></span>
+    </h1>
+    <p class="hero__sub"><span class="ln"><span>Lunettes éco-conçues, créateurs indépendants, atelier sur place — au cœur du Vieux-Lille.</span></span></p>
+    <div class="hero__cta">
+      <a href="#lunettes" class="btn" data-magnetic data-c>Voir la sélection</a>
+      <a href="#eco" class="btn btn--ghost" data-c>La démarche</a>
+    </div>
+  </div>
+  <div class="wrap hero__meta">
+    <div class="m"><b>EST. 2014</b><span>Vieux-Lille</span></div>
+    <div class="m"><b>25</b><span>maisons indép.</span></div>
+    <div class="m"><b>100%</b><span>éco-conscient</span></div>
+    <div class="m"><b>2</b><span>opticiens · Sarah &amp; Flo</span></div>
+    <div class="cue"><span class="l"></span>Défiler</div>
+  </div>
+</section>
+
+<!-- ===== MARQUEE ===== -->
+<div class="marq"><div class="marq__t">
+  <span>Bioacétate</span><span class="hollow">Voyez grand</span><span>Bois français</span><span class="hollow">Acétate recyclé</span><span>Atelier sur place</span><span class="hollow">Seconde vie</span>
+  <span>Bioacétate</span><span class="hollow">Voyez grand</span><span>Bois français</span><span class="hollow">Acétate recyclé</span><span>Atelier sur place</span><span class="hollow">Seconde vie</span>
+</div></div>
+
+<!-- ===== MANIFESTE ===== -->
+<section class="sec" id="maison">
+  <div class="wrap">
+    <div class="sec-i rv">[ 01 ] <b>La maison</b></div>
+    <div class="man">
+      <div class="man__big rv">Une paire de lunettes n'est pas un accessoire. <span class="o">C'est un</span> <span class="a">regard sur le monde</span> — alors on les choisit beaux, durables, porteurs de sens.</div>
+      <div class="steps">
+        <div class="step rv" data-d="1"><span class="n">/01</span><div><h4>Le bon œil</h4><p>Un conseil d'opticien, jamais un argumentaire. On cherche la monture qui vous ressemble vraiment.</p></div></div>
+        <div class="step rv" data-d="2"><span class="n">/02</span><div><h4>La belle matière</h4><p>Bioacétate, bois, acétate recyclé. Des matières nobles, traçables, respectueuses du vivant.</p></div></div>
+        <div class="step rv" data-d="3"><span class="n">/03</span><div><h4>Le geste juste</h4><p>Réglage, réparation, reprise. Un atelier sur place pour faire durer ce qui est bien fait.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLICED GRID / REGARD ===== -->
+<section id="regard">
+  <div class="slicer" id="slicer" data-img="assets/team-sarah-examen.jpg">
+    <div class="slice"></div><div class="slice"></div><div class="slice"></div><div class="slice"></div><div class="slice"></div>
+    <div class="slicer__cap">
+      <h3>Le style<br>commence<br>par le regard</h3>
+      <div class="x">Chaque ajustement se fait à l'œil, en boutique. Le bon centrage, la bonne courbe — comme on règle un instrument.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== OPTIQUE / EXAMEN DE VUE ===== -->
+<section class="sec" id="optique">
+  <div class="wrap">
+    <div class="sec-i rv">[ 02 ] <b>L'optique</b></div>
+    <div class="exam">
+      <div class="exam__ph clip"><img src="assets/team-sarah-examen.jpg" alt="Examen de vue — Sacrées Mirettes"><span class="exam__tag">Examen de vue</span></div>
+      <div>
+        <h2 class="rv">On commence<br>par <span class="a">vos yeux.</span></h2>
+        <p class="exam__lead rv" data-d="1">Avant la monture, il y a le regard. Opticiens diplômés, on mesure votre vue avec un matériel récent et on prend le temps qu'il faut — pour des verres vraiment adaptés à vos yeux, pas un examen à la chaîne.</p>
+        <ul class="exam__list">
+          <li class="rv" data-d="1"><span>/01</span><div><h4>Examen de vue complet</h4><p>Acuité, réfraction, vision de près comme de loin. Un bilan sérieux mené en boutique, par un opticien diplômé.</p></div></li>
+          <li class="rv" data-d="2"><span>/02</span><div><h4>Sans rendez-vous interminable</h4><p>On vous reçoit vite et bien. Pas de salle d'attente sans fin — juste le temps qu'il faut pour vous.</p></div></li>
+          <li class="rv" data-d="3"><span>/03</span><div><h4>Verres, lentilles &amp; suivi</h4><p>Verres de qualité, adaptation des lentilles, réglages et garanties. On reste là, bien après l'achat.</p></div></li>
+        </ul>
+        <a href="#visite" class="btn rv" data-d="2" data-magnetic data-c>Prendre rendez-vous</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MAISONS ===== -->
+<section class="sec" id="creesteurs">
+  <div class="wrap">
+    <div class="sec-i rv">[ 03 ] <b>Les créateurs</b></div>
+    <div class="sec-head">
+      <h2 class="rv">Des maisons<br><span class="o">indépendantes,</span> <span class="a">choisies</span><br>une à une.</h2>
+      <p class="rv" data-d="1">Pas de grandes licences ni de logos tapageurs. Des lunetiers indépendants, européens pour la plupart, qui pensent leurs collections comme des objets de caractère.</p>
+    </div>
+    <div class="maisons">
+      <figure class="maison clip" data-c><span class="idx">01</span><img src="assets/brand-oscar.jpg" alt="Oscar Magnuson"><figcaption><b>Oscar Magnuson</b><span>Suède</span></figcaption></figure>
+      <figure class="maison clip" data-d="1" data-c><span class="idx">02</span><img src="assets/brand-clement.jpg" alt="Clément Lunetier"><figcaption><b>Clément Lunetier</b><span>France · bois</span></figcaption></figure>
+      <figure class="maison clip" data-d="2" data-c><span class="idx">03</span><img src="assets/brand-dickmoby.jpg" alt="Dick Moby"><figcaption><b>Dick Moby</b><span>Amsterdam</span></figcaption></figure>
+      <figure class="maison clip" data-d="3" data-c><span class="idx">04</span><img src="assets/brand-aude.jpg" alt="Aude Hérouard"><figcaption><b>Aude Hérouard</b><span>Normandie</span></figcaption></figure>
+      <figure class="maison clip" data-c><span class="idx">05</span><img src="assets/brand-folc.jpg" alt="Folc"><figcaption><b>Folc</b><span>Espagne</span></figcaption></figure>
+      <figure class="maison clip" data-d="1" data-c><span class="idx">06</span><img src="assets/brand-gamine.jpg" alt="Gamine NY"><figcaption><b>Gamine NY</b><span>New York</span></figcaption></figure>
+      <figure class="maison clip" data-d="2" data-c><span class="idx">07</span><img src="assets/brand-gotti.jpg" alt="Götti"><figcaption><b>Götti</b><span>Suisse</span></figcaption></figure>
+      <figure class="maison clip" data-d="3" data-c><span class="idx">08</span><img src="assets/brand-lesca.jpg" alt="Lesca"><figcaption><b>Lesca</b><span>France</span></figcaption></figure>
+    </div>
+    <div class="maisons-more rv"><span>Tuyama</span><span>Peter May</span><span>Friendly Frenchy</span><span>Kaleos</span><span>Nina Mur</span><span>Coblens</span><span>Baars</span><span>+ encore</span></div>
+  </div>
+</section>
+
+<!-- ===== LUNETTES ===== -->
+<section class="sec" id="lunettes" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-i rv">[ 04 ] <b>La sélection</b></div>
+    <div class="sec-head">
+      <h2 class="rv">Quelques<br>regards <span class="a">à essayer.</span></h2>
+      <p class="rv" data-d="1">Un aperçu de l'atelier. Chaque modèle se règle, s'adapte et se porte au quotidien — venez les essayer en boutique, la lumière du Vieux-Lille en prime.</p>
+    </div>
+    <div class="filters rv" id="filters">
+      <div class="fg" data-filter="usage"><button class="chip on" data-val="all">Tout</button><button class="chip" data-val="solaire">Solaire</button><button class="chip" data-val="optique">Optique</button></div>
+      <div class="fg" data-filter="shape"><span class="fg__l">Forme</span><button class="chip" data-val="ronde">Ronde</button><button class="chip" data-val="ovale">Ovale</button><button class="chip" data-val="carree">Carrée</button></div>
+      <span class="fcount" id="fcount">6 modèles</span>
+    </div>
+    <div class="prods" id="prods">
+      <article class="prod rv" data-usage="solaire" data-shape="ronde"><div class="prod__im"><span class="prod__tag">Solaire</span><img src="assets/p-akira-green.jpg" alt="Akira vert"><div class="prod__try">Essayer en boutique →</div></div><div class="prod__b"><div><h4>Akira</h4><div class="br">Oscar Magnuson · vert forêt</div><div class="sp">Ronde · acétate · 49<i>□</i>22 · 145</div></div><div class="prod__pr">290€</div></div></article>
+      <article class="prod rv" data-d="1" data-usage="optique" data-shape="ovale"><div class="prod__im"><span class="prod__tag">Optique</span><img src="assets/p-astrid-brown.jpg" alt="Astrid"><div class="prod__try">Essayer en boutique →</div></div><div class="prod__b"><div><h4>Astrid</h4><div class="br">Oscar Magnuson · crystal brown</div><div class="sp">Ovale · bioacétate · 48<i>□</i>21 · 145</div></div><div class="prod__pr">275€</div></div></article>
+      <article class="prod rv" data-d="2" data-usage="solaire" data-shape="ronde"><div class="prod__im"><span class="prod__tag">Solaire</span><img src="assets/p-akira-red.jpg" alt="Akira rouge"><div class="prod__try">Essayer en boutique →</div></div><div class="prod__b"><div><h4>Akira</h4><div class="br">Oscar Magnuson · rouge profond</div><div class="sp">Ronde · acétate · 49<i>□</i>22 · 145</div></div><div class="prod__pr">290€</div></div></article>
+      <article class="prod rv" data-usage="solaire" data-shape="carree"><div class="prod__im"><span class="prod__tag">Solaire</span><img src="assets/p-andre-grey.jpg" alt="André gris"><div class="prod__try">Essayer en boutique →</div></div><div class="prod__b"><div><h4>André</h4><div class="br">Oscar Magnuson · warm grey</div><div class="sp">Carrée · acétate · 50<i>□</i>23 · 145</div></div><div class="prod__pr">285€</div></div></article>
+      <article class="prod rv" data-d="1" data-usage="optique" data-shape="ovale"><div class="prod__im"><span class="prod__tag">Optique</span><img src="assets/p-batty-pink.jpg" alt="Batty rose"><div class="prod__try">Essayer en boutique →</div></div><div class="prod__b"><div><h4>Batty</h4><div class="br">Oscar Magnuson · rose poudré</div><div class="sp">Ovale · bioacétate · 47<i>□</i>20 · 140</div></div><div class="prod__pr">270€</div></div></article>
+      <article class="prod rv" data-d="2" data-usage="solaire" data-shape="carree"><div class="prod__im"><span class="prod__tag">Solaire</span><img src="assets/p-andre-green.jpg" alt="André vert"><div class="prod__try">Essayer en boutique →</div></div><div class="prod__b"><div><h4>André</h4><div class="br">Oscar Magnuson · vert bouteille</div><div class="sp">Carrée · acétate · 50<i>□</i>23 · 145</div></div><div class="prod__pr">285€</div></div></article>
+    </div>
+    <p class="legend rv">Lecture des mesures : <b>calibre</b> <i>□</i> <b>pont</b> · <b>longueur de branche</b> — en mm, comme en boutique.</p>
+  </div>
+</section>
+
+<!-- ===== ECO ===== -->
+<section class="eco sec" id="eco">
+  <div class="wrap">
+    <div class="sec-i rv">[ 05 ] <b>L'engagement</b></div>
+    <div class="eco__grid">
+      <div class="eco__ph clip"><img src="assets/team-flo-emile.jpg" alt="Atelier — réglage">
+        <div class="chipbig"><b>0</b><span>déchet oublié — vos anciennes montures reprennent vie grâce à la reprise solidaire.</span></div>
+      </div>
+      <div>
+        <h2 class="rv">Voir loin,<br>c'est <span class="o">voir juste</span><br>pour la <span class="a">planète.</span></h2>
+        <div class="eco__chips rv" data-d="1"><span>Bioacétate Mazzucchelli M49</span><span>Biodégradable · ISO 14855</span><span>Bois certifié FSC</span><span>Acétate recyclé</span></div>
+        <ul class="eco__list">
+          <li class="rv" data-d="1"><span class="i">/01</span><div><h4>Des matières que l'on nomme</h4><p>Le bioacétate M49 de nos créateurs est biodégradable (norme ISO 14855), le bois certifié FSC, l'acétate recyclé issu de chutes d'atelier. Traçable, vérifiable.</p></div></li>
+          <li class="rv" data-d="2"><span class="i">/02</span><div><h4>Atelier &amp; réparation</h4><p>On répare, on ajuste, on remplace une branche plutôt que de jeter la paire. Faire durer, c'est tout le métier.</p></div></li>
+          <li class="rv" data-d="3"><span class="i">/03</span><div><h4>Seconde vie &amp; reprise</h4><p>Vos anciennes lunettes sont collectées et redistribuées. Rien ne se perd, tout se transmet.</p></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS ===== -->
+<section class="sec" style="overflow:hidden">
+  <div class="wrap">
+    <div class="sec-i rv">[ 06 ] <b>En chiffres</b></div>
+    <div class="stats" id="stats">
+      <div class="stat rv"><div class="num"><span data-count="11">0</span></div><div class="lb">ans d'expertise, à deux</div></div>
+      <div class="stat rv" data-d="1"><div class="num"><span data-count="25">0</span></div><div class="lb">maisons indépendantes au mur</div></div>
+      <div class="stat rv" data-d="2"><div class="num"><span data-count="100">0</span><span class="a">%</span></div><div class="lb">montures éco-conscientes</div></div>
+      <div class="stat rv" data-d="3"><div class="num"><span class="a" data-count="3">0</span>–<span data-count="4">0</span></div><div class="lb">paiement en plusieurs fois</div></div>
+    </div>
+    <div class="stats__ghost" aria-hidden="true">Vieux-Lille</div>
+  </div>
+</section>
+
+<!-- ===== DUO ===== -->
+<section class="sec" id="duo" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-i rv">[ 07 ] <b>Le duo</b></div>
+    <div class="sec-head">
+      <h2 class="rv">Sarah &amp; Flo,<br><span class="o">derrière le</span> <span class="a">comptoir.</span></h2>
+      <p class="rv" data-d="1">Deux opticiens, une même obsession : que vous repartiez avec des lunettes qui vous vont — vraiment. On prend le temps, on ajuste, on conseille.</p>
+    </div>
+    <div class="duo">
+      <article class="dc rv" data-c><div class="ph"><img src="assets/team-sarah-lunettes.jpg" alt="Sarah"></div>
+        <div class="dc__b"><div class="nm"><h3>Sarah</h3><span class="role">Opticienne · 15 ans</span></div>
+          <p>L'œil exigeant de la maison. Passionnée d'égyptologie et de voyages, elle a l'art de trouver la monture qui révèle un visage — celle à laquelle vous n'auriez jamais pensé.</p>
+          <div class="tg"><span>Examen de vue</span><span>Conseil style</span><span>Basse vision</span></div></div></article>
+      <article class="dc rv" data-d="1" data-c><div class="ph"><img src="assets/team-flo-miroir.jpg" alt="Florent"></div>
+        <div class="dc__b"><div class="nm"><h3>Florent</h3><span class="role">Opticien · 10 ans</span></div>
+          <p>« Flo » pour les habitués. Amateur de vinyles et de vélo, c'est notre spécialiste des lunettes de sport et de cyclisme — précises, légères, taillées pour la route.</p>
+          <div class="tg"><span>Sport &amp; vélo</span><span>Lentilles</span><span>Réglage atelier</span></div></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SERVICES ===== -->
+<section class="sec" id="services" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-i rv">[ 08 ] <b>L'accompagnement</b></div>
+    <div class="svc-grid">
+      <div class="svc rv"><span class="n">/01</span><h4>Examen de vue</h4><p>Un bilan complet, sans rendez-vous interminable, pour des verres parfaitement adaptés à vos yeux.</p><svg class="ar" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></div>
+      <div class="svc rv" data-d="1"><span class="n">/02</span><h4>Lentilles de contact</h4><p>Pose, adaptation et suivi. On vous apprend les bons gestes pour un confort sans compromis.</p><svg class="ar" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></div>
+      <div class="svc rv"><span class="n">/03</span><h4>Lunettes sport &amp; vélo</h4><p>Montures techniques, légères et tenues à la perfection pour la route, le trail ou la piscine.</p><svg class="ar" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></div>
+      <div class="svc rv" data-d="1"><span class="n">/04</span><h4>Atelier &amp; reprise</h4><p>Réparation, réglage, paiement en 3 ou 4 fois et reprise de vos anciennes montures. On fait durer.</p><svg class="ar" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta" id="visite">
+  <div class="cta__ghost" aria-hidden="true">Bonjour</div>
+  <div class="wrap">
+    <div class="cta__circ clip"><img src="assets/boutique-portrait.jpg" alt="La boutique"></div>
+    <h2 class="rv">Et si on regardait<br>le monde <span class="a">autrement&nbsp;?</span></h2>
+    <p class="rv" data-d="1">15 bis rue du Cirque, 59800 Lille — Vieux-Lille. Lun 14–19h · Mar–Sam 10–19h.<br>Prenez rendez-vous pour un examen de vue, ou passez simplement essayer une monture. Le café est offert.</p>
+    <div class="rv" data-d="2" style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+      <a href="tel:+33320912213" class="btn btn--accent" data-magnetic data-c>03 20 91 22 13</a>
+      <a href="https://maps.google.com/?q=15+bis+rue+du+Cirque+59800+Lille" target="_blank" rel="noopener" class="btn btn--ghost" data-c>Itinéraire</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer><div class="wrap">
+  <div class="ft">
+    <div class="ft-brand"><img src="assets/logo-white.png" alt="Sacrées Mirettes"><p>Opticien lunetier responsable au cœur du Vieux-Lille. Voyez grand, voyez juste.</p></div>
+    <div class="ft-col"><h5>Maison</h5><a href="#maison">Notre histoire</a><a href="#eco">Éco-responsable</a><a href="#duo">L'équipe</a><a href="#creesteurs">Les créateurs</a></div>
+    <div class="ft-col"><h5>Services</h5><a href="#services">Examen de vue</a><a href="#services">Lentilles</a><a href="#services">Sport &amp; vélo</a><a href="#services">Reprise &amp; atelier</a></div>
+    <div class="ft-col"><h5>Contact</h5><a href="tel:+33320912213">03 20 91 22 13</a><a href="mailto:contact@sacreesmirettes.com">Nous écrire</a><a href="https://maps.google.com/?q=15+bis+rue+du+Cirque+59800+Lille" target="_blank" rel="noopener">15 bis rue du Cirque</a><a href="https://www.instagram.com/sacreesmirettes/" target="_blank" rel="noopener">Instagram</a></div>
+  </div>
+  <div class="ft-bot"><span>© 2026 Sacrées Mirettes — Tous droits réservés</span><span>Vieux-Lille · Voyez grand ✦</span></div>
+</div></footer>
+
+<script>
+/* ===== custom cursor ===== */
+(function(){
+  const cur=document.getElementById('cur'),curd=document.getElementById('curd');
+  if(!matchMedia('(hover:hover) and (pointer:fine)').matches){cur.style.display='none';curd.style.display='none';return;}
+  let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my;
+  addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;curd.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`;});
+  (function loop(){cx+=(mx-cx)*.18;cy+=(my-cy)*.18;cur.style.transform=`translate(${cx}px,${cy}px) translate(-50%,-50%)`;requestAnimationFrame(loop);})();
+  const grow=()=>cur.classList.add('grow'),shrink=()=>cur.classList.remove('grow');
+  document.querySelectorAll('a,button,[data-c]').forEach(el=>{el.addEventListener('mouseenter',grow);el.addEventListener('mouseleave',shrink);});
+})();
+
+/* ===== header scroll (hide on down, show on up) ===== */
+(function(){
+  const hdr=document.getElementById('hdr');let last=0;
+  addEventListener('scroll',()=>{
+    const y=scrollY;hdr.classList.toggle('scrolled',y>40);
+    hdr.classList.toggle('hide', y>last && y>500);last=y;
+  },{passive:true});
+})();
+
+/* ===== reveal observer ===== */
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.16,rootMargin:'0px 0px -7% 0px'});
+document.querySelectorAll('.rv,.clip,.lh').forEach(el=>io.observe(el));
+
+/* ===== hero headline reveal (synced to loader lift) ===== */
+(function(){const h=document.getElementById('heroL');if(!h)return;h.classList.remove('lh');
+  const go=()=>h.classList.add('lh');
+  addEventListener('load',()=>setTimeout(go,1550));setTimeout(go,2600);})();
+
+/* ===== hero cube mosaic ===== */
+(function(){
+  const hero=document.querySelector('.hero'),wrap=document.getElementById('cubes');
+  if(!hero||!wrap)return;
+  const IMG='assets/hero-woman.jpg',IW=1184,IH=734;
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  let cubes=[];
+  function build(){
+    const r=hero.getBoundingClientRect(),W=r.width,H=r.height;wrap.innerHTML='';cubes=[];
+    const cols=Math.max(5,Math.min(11,Math.round(W/150))),rows=Math.max(5,Math.min(9,Math.round(H/150)));
+    const cw=W/cols,ch=H/rows;
+    const scale=Math.max(W/IW,H/IH),coverW=IW*scale,coverH=IH*scale,offX=(W-coverW)/2,offY=(H-coverH)/2;
+    const cx0=(cols-1)/2,cy0=(rows-1)/2,maxd=Math.hypot(cx0,cy0)||1;
+    for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){
+      const d=document.createElement('div');d.className='cube';
+      d.style.width=(cw-2)+'px';d.style.height=(ch-2)+'px';d.style.left=(x*cw+1)+'px';d.style.top=(y*ch+1)+'px';
+      d.style.backgroundImage='url('+IMG+')';d.style.backgroundSize=coverW+'px '+coverH+'px';
+      d.style.backgroundPosition=(offX-x*cw-1)+'px '+(offY-y*ch-1)+'px';
+      wrap.appendChild(d);
+      cubes.push({el:d,gx:x*cw+cw/2,gy:y*ch+ch/2,sx:x,sy:y,delay:(Math.hypot(x-cx0,y-cy0)/maxd)*0.5});
+    }
+  }
+  let mx=-1,my=-1;
+  hero.addEventListener('mousemove',e=>{const r=hero.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;});
+  hero.addEventListener('mouseleave',()=>{mx=-1;my=-1;});
+  const INTRO=1.5,DUR=0.7;let t0=null,intro=true;
+  function frame(t){
+    if(t0===null)t0=t;const el=(t-t0)/1000;
+    for(const c of cubes){
+      let p=intro?(el-INTRO-c.delay)/DUR:1;p=p<0?0:p>1?1:p;p=1-Math.pow(1-p,3);
+      const yIn=(1-p)*36,sIn=0.5+0.5*p;
+      let dx=0,dy=0,ex=1;
+      if(mx>=0&&!reduce){const ax=c.gx-mx,ay=c.gy-my,dd=Math.hypot(ax,ay),inf=Math.max(0,1-dd/330);dx=(ax/(dd||1))*inf*16;dy=(ay/(dd||1))*inf*16;ex=1+inf*0.08;}
+      const wv=reduce?0:Math.sin(el*1.05+(c.sx+c.sy)*0.5)*2.4*p;
+      c.el.style.opacity=p;
+      c.el.style.transform='translate('+dx+'px,'+(yIn+wv+dy)+'px) scale('+(sIn*ex)+')';
+    }
+    requestAnimationFrame(frame);
+  }
+  build();requestAnimationFrame(frame);
+  let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{intro=false;build();},220);});
+})();
+
+/* ===== sliced grid build + parallax ===== */
+(function(){
+  const s=document.getElementById('slicer');if(!s)return;
+  const img=s.dataset.img;const slices=[...s.querySelectorAll('.slice')];
+  slices.forEach((sl,i)=>{sl.style.backgroundImage=`url(${img})`;sl.style.backgroundPositionX=(i/(slices.length-1)*100)+'%';});
+  addEventListener('scroll',()=>{
+    const r=s.getBoundingClientRect();const prog=(r.top+r.height)/(innerHeight+r.height);
+    slices.forEach((sl,i)=>{const dir=i%2?1:-1;sl.style.translate='0 '+((.5-prog)*40*dir)+'px';});
+  },{passive:true});
+})();
+
+/* ===== count-up ===== */
+(function(){
+  const seen=new WeakSet();
+  const co=new IntersectionObserver((es)=>{es.forEach(e=>{
+    if(!e.isIntersecting||seen.has(e.target))return;seen.add(e.target);
+    const el=e.target,end=+el.dataset.count;let t0=null;const dur=1400;
+    function step(t){if(!t0)t0=t;const p=Math.min(1,(t-t0)/dur);el.textContent=Math.round(end*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(step);}
+    requestAnimationFrame(step);
+  });},{threshold:.5});
+  document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
+})();
+
+/* ===== magnetic buttons ===== */
+document.querySelectorAll('[data-magnetic]').forEach(el=>{
+  el.addEventListener('mousemove',e=>{const r=el.getBoundingClientRect();const x=e.clientX-r.left-r.width/2,y=e.clientY-r.top-r.height/2;el.style.transform=`translate(${x*.3}px,${y*.4}px)`;});
+  el.addEventListener('mouseleave',()=>{el.style.transform='';});
+});
+
+/* ===== product filtering ===== */
+(function(){
+  const bar=document.getElementById('filters');if(!bar)return;
+  const prods=[...document.querySelectorAll('#prods .prod')];const countEl=document.getElementById('fcount');
+  const st={usage:'all',shape:null};
+  function apply(){let n=0;prods.forEach(p=>{const okU=st.usage==='all'||p.dataset.usage===st.usage;const okS=!st.shape||p.dataset.shape===st.shape;const show=okU&&okS;p.classList.toggle('hidden',!show);if(show){p.classList.remove('fin');void p.offsetWidth;p.classList.add('fin');n++;}});countEl.textContent=n+(n>1?' modèles':' modèle');}
+  bar.querySelectorAll('.chip').forEach(chip=>chip.addEventListener('click',()=>{
+    const grp=chip.closest('.fg').dataset.filter,val=chip.dataset.val;
+    if(grp==='usage'){st.usage=val;bar.querySelectorAll('[data-filter="usage"] .chip').forEach(c=>c.classList.toggle('on',c===chip));}
+    else{if(st.shape===val){st.shape=null;chip.classList.remove('on');}else{st.shape=val;bar.querySelectorAll('[data-filter="shape"] .chip').forEach(c=>c.classList.toggle('on',c===chip));}}
+    apply();
+  }));
+})();
+
+/* ===== mobile menu ===== */
+document.getElementById('burger').addEventListener('click',()=>{
+  alert('Menu — Maison · Regard · Créateurs · Lunettes · Éco · Contact');
+});
+</script>
+</body>
+</html>
